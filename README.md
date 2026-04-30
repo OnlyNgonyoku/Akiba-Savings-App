@@ -1,59 +1,117 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Akiba Savings App
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+**Akiba** (Swahili for "savings") is a full‑stack digital savings and coordination platform designed around how people in Kenya manage money—individually, in groups *(chamas)*, and through informal fundraising *(harambees)*. The platform combines a **wallet system**, **goal‑based saving**, and **structured group finance** into one transparent, auditable ecosystem.
 
-## About Laravel
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Key Features
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **Double‑entry ledger** – Every financial movement is recorded as immutable debit/credit pairs, ensuring perfect auditability.
+- **Polymorphic wallets** – Users, groups, goals, fundraisers, and the platform itself each hold one or more wallets.
+- **Group savings (Chamas)** – Rotational, milestone‑based, and open‑contributions groups with member roles and payout rules.
+- **Personal & group goals** – Lock‑up savings targets with dedicated escrow wallets and progress tracking.
+- **Public fundraisers (Harambee)** – Campaigns with deadlines, contributed directly from personal wallets.
+- **Withdrawal requests** – Manual approval workflow via the admin panel, with full logging.
+- **Mobile‑ready REST API** – Phone‑based OTP authentication, Sanctum tokens, and idempotency‑safe endpoints.
+- **Admin dashboard** – Real‑time overview of users, wallets, transactions, pending actions, and financial trends.
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## Technology Stack
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+| Layer          | Technology                                    |
+|----------------|-----------------------------------------------|
+| Backend        | Laravel 12 (PHP 8.3+)                         |
+| Admin Panel    | Filament v4 (TALL stack)                      |
+| Database       | MySQL 8 (InnoDB)                             |
+| Caching/Queue  | Redis                                        |
+| Real‑time      | Laravel Reverb / Pusher (WebSockets)          |
+| Payments       | Paystack (M‑Pesa integration)                 |
+| Frontend (Web) | Livewire + Alpine.js + Tailwind CSS           |
+| Mobile API     | Sanctum token authentication, planned mobile app |
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
 
-### Premium Partners
+The Laravel backend enforces all business rules (double‑entry, group cycles, idempotency) and exposes a REST API for mobile clients. The Filament admin panel gives platform operators complete visibility and control.
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+---
 
-## Contributing
+## Database Schema
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+The database is designed around a **double‑entry ledger** with polymorphic wallets. Every financial event creates a `Transaction` with one or more `LedgerEntries` (debits = credits). Balances are derived from the ledger, never stored as the sole source of truth.
 
-## Code of Conduct
+### Core Tables
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+| Table                | Description                                      |
+|----------------------|--------------------------------------------------|
+| `users`              | Members (phone‑based auth, optional email)       |
+| `wallets`            | Polymorphic balance holders (User, Group, Goal, Fundraiser, System) |
+| `groups`             | Chamas / saving groups                           |
+| `group_members`      | Pivot with role, position, and join date         |
+| `goals`              | Personal or group savings targets                |
+| `fundraisers`        | Harambee campaigns                               |
+| `transactions`       | High‑level financial events (deposit, contribution, payout…) |
+| `ledger_entries`     | Immutable double‑entry rows (debit/credit per wallet) |
+| `withdrawal_requests`| Outbound payment requests (approval workflow)    |
+| `audit_logs`         | Activity trail for all models                    |
 
-## Security Vulnerabilities
+All money columns use `decimal(20,2)`. Refer to the migrations in `database/migrations/` for the full schema.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
-## License
+## Admin Panel (Filament)
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+The web application is built with **Filament v4** and provides:
+
+### Resources
+- **UserResource** – Manage users, send OTP, verify KYC.
+- **WalletResource** – View all wallets and their computed balances.
+- **GroupResource** – Manage chamas, members, and rotation schedules.
+- **GoalResource** – Track personal and group saving goals.
+- **FundraiserResource** – Oversee public fundraising campaigns.
+- **TransactionResource** – Read‑only view of all financial events with embedded ledger entries.
+- **LedgerEntryResource** – Immutable ledger rows for audits.
+- **WithdrawalRequestResource** – Approval / rejection workflow.
+- **AuditLogResource** – Model change history.
+
+### Dashboard Widgets
+- **8 live stats** (active users, total deposits, contributions, pending withdrawals, group balances, goal progress, weekly transactions).
+- **Pending Withdrawals table** with approve/reject actions.
+- **Recent Transactions table** (last 5 completed).
+- **Deposits vs Payouts line chart** (30‑day trend).
+- **Group Contributions bar chart** (most active chamas).
+- **Goal Status doughnut chart** (active/completed/cancelled).
+
+---
+
+## REST API
+
+The API follows RESTful conventions, prefixed with `/api/v1/`. All endpoints (except auth) require a `Bearer` token obtained via phone OTP.
+
+| Endpoint                              | Description                     |
+|---------------------------------------|---------------------------------|
+| `POST /api/v1/auth/send-otp`          | Request OTP                     |
+| `POST /api/v1/auth/verify-otp`        | Verify OTP & get token          |
+| `GET /api/v1/wallet`                  | Personal wallet & balance       |
+| `GET /api/v1/goals`                   | List user goals                 |
+| `POST /api/v1/goals`                  | Create a goal                   |
+| `POST /api/v1/goals/{id}/deposit`     | Deposit into goal               |
+| `GET /api/v1/groups`                  | List user’s groups              |
+| `POST /api/v1/groups/{id}/contribute` | Contribute to a group           |
+| `POST /api/v1/withdrawals`            | Request withdrawal              |
+| …                                     |                                 |
+
+All payment‑related endpoints require an `Idempotency-Key` header. API documentation will be auto‑generated (OpenAPI/Swagger) in future phases.
+
+---
+
+## Installation & Setup
+
+### Prerequisites
+- PHP 8.3+
+- Composer
+- MySQL 8
+- Node.js & npm (for front‑end assets)
+- Redis (optional, used for caching / queues)

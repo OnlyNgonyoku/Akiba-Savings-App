@@ -2,6 +2,11 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Widgets\DepositsVsWithdrawalsChart;
+use App\Filament\Widgets\GroupContributionActivityChart;
+use App\Filament\Widgets\PendingWithdrawals;
+use App\Filament\Widgets\RecentTransactions;
+use App\Filament\Widgets\StatsOverviewWidget;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -29,8 +34,12 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login()
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => Color::Lime,
             ])
+            ->font('Montserrat')
+            ->spa(hasPrefetching: true)
+            ->unsavedChangesAlerts()
+            ->sidebarCollapsibleOnDesktop()
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
             ->pages([
@@ -38,8 +47,13 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
             ->widgets([
-                AccountWidget::class,
-                FilamentInfoWidget::class,
+                // AccountWidget::class,
+                // FilamentInfoWidget::class,
+                StatsOverviewWidget::class,
+                PendingWithdrawals::class,
+                RecentTransactions::class,
+                DepositsVsWithdrawalsChart::class,
+                GroupContributionActivityChart::class,
             ])
             ->middleware([
                 EncryptCookies::class,

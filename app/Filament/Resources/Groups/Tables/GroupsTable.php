@@ -1,57 +1,52 @@
 <?php
 
-namespace App\Filament\Resources\Users\Tables;
+namespace App\Filament\Resources\Groups\Tables;
 
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
-use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
-class UsersTable
+class GroupsTable
 {
     public static function configure(Table $table): Table
     {
         return $table
             ->columns([
                 //
-                TextColumn::make('id')
-                    ->label('ID')
-                    ->sortable(),
-
+                TextColumn::make('id')->sortable(),
                 TextColumn::make('name')
-                    ->label('Name')
                     ->searchable()
                     ->sortable(),
-
-                TextColumn::make('phone')
-                    ->label('Phone')
-                    ->searchable()
+                TextColumn::make('type')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'rotational' => 'info',
+                        'milestone' => 'warning',
+                        'open' => 'success',
+                        default => 'gray',
+                    }),
+                TextColumn::make('contribution_amount')
+                    ->money('KES')
                     ->sortable(),
-
-                TextColumn::make('email')
-                    ->label('Email')
-                    ->searchable()
+                TextColumn::make('members_count')
+                    ->label('Members')
+                    ->counts('members')
                     ->sortable(),
-
+                TextColumn::make('wallet.balance')
+                    ->label('Group Wallet')
+                    ->money('KES')
+                    ->sortable(),
                 TextColumn::make('created_at')
-                    ->label('Registered')
                     ->dateTime()
                     ->sortable(),
-
-                TextColumn::make('updated_at')
-                    ->label('Last Updated')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //
             ])
             ->recordActions([
                 EditAction::make(),
-                ViewAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

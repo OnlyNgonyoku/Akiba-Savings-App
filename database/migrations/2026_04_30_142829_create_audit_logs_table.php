@@ -19,8 +19,6 @@ return new class extends Migration
             $table->json('old_values')->nullable();
             $table->json('new_values')->nullable();
             $table->timestamp('created_at')->useCurrent();
-
-            $table->index(['auditable_type', 'auditable_id']);
         });
     }
 

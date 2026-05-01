@@ -29,7 +29,7 @@ class GroupContributionActivityChart extends ChartWidget
                 [
                     'label' => 'Contribution Amount (KES)',
                     'data' => $grouped->values()->toArray(),
-                    'backgroundColor' => '#6366f1',
+                    'backgroundColor' => '#3b82f6',
                 ],
             ],
             'labels' => $grouped->keys()->toArray(),

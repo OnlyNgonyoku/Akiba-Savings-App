@@ -8,9 +8,8 @@ use Illuminate\Support\Facades\DB;
 
 class DepositsVsWithdrawalsChart extends ChartWidget
 {
-    protected ?string $heading = 'Deposits vs Payouts (Last 30 Days';
+    protected ?string $heading = 'Deposits vs Payouts (Last 30 Days)';
     protected static ?int $sort = 2;
-
     protected function getData(): array
     {
         $deposits = Transaction::selectRaw('DATE(created_at) as date, SUM(amount) as total')

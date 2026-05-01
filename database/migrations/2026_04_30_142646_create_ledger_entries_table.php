@@ -23,6 +23,8 @@ return new class extends Migration
             // No updated_at – entries are immutable
             $table->index(['wallet_id', 'created_at']);
             $table->index('transaction_id');
+
+            $table->softDeletes(); // For potential future use, e.g., correcting errors without losing history
         });
     }
 

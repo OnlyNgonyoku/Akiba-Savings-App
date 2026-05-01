@@ -5,9 +5,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class LedgerEntry extends Model
 {
+    use SoftDeletes;
     public $timestamps = false;   // only created_at is set; updated_at not needed
     protected $fillable = ['transaction_id', 'wallet_id', 'entry_type', 'amount', 'description'];
 

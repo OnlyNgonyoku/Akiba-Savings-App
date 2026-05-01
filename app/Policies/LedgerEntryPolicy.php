@@ -29,7 +29,7 @@ class LedgerEntryPolicy
      */
     public function create(User $user): bool
     {
-        return true;
+        return false;
     }
 
     /**
@@ -37,7 +37,7 @@ class LedgerEntryPolicy
      */
     public function update(User $user, LedgerEntry $ledgerEntry): bool
     {
-        return true;
+        return false;
     }
 
     /**

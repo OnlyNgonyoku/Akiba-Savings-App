@@ -5,7 +5,9 @@ namespace App\Filament\Resources\Fundraisers;
 use App\Filament\Resources\Fundraisers\Pages\CreateFundraiser;
 use App\Filament\Resources\Fundraisers\Pages\EditFundraiser;
 use App\Filament\Resources\Fundraisers\Pages\ListFundraisers;
+use App\Filament\Resources\Fundraisers\Pages\ViewFundraiser;
 use App\Filament\Resources\Fundraisers\Schemas\FundraiserForm;
+use App\Filament\Resources\Fundraisers\Schemas\FundraiserInfolist;
 use App\Filament\Resources\Fundraisers\Tables\FundraisersTable;
 use App\Models\Fundraiser;
 use BackedEnum;
@@ -23,6 +25,11 @@ class FundraiserResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return FundraiserForm::configure($schema);
+    }
+
+    public static function infolist(Schema $schema): Schema
+    {
+        return FundraiserInfolist::configure($schema);
     }
 
     public static function table(Table $table): Table
@@ -43,6 +50,7 @@ class FundraiserResource extends Resource
             'index' => ListFundraisers::route('/'),
             'create' => CreateFundraiser::route('/create'),
             'edit' => EditFundraiser::route('/{record}/edit'),
+            // 'view' => ViewFundraiser::route('/{record}'),
         ];
     }
 }

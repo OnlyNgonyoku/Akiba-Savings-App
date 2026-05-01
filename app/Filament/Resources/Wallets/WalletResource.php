@@ -5,7 +5,9 @@ namespace App\Filament\Resources\Wallets;
 use App\Filament\Resources\Wallets\Pages\CreateWallet;
 use App\Filament\Resources\Wallets\Pages\EditWallet;
 use App\Filament\Resources\Wallets\Pages\ListWallets;
+use App\Filament\Resources\Wallets\Pages\ViewWallet;
 use App\Filament\Resources\Wallets\Schemas\WalletForm;
+use App\Filament\Resources\Wallets\Schemas\WalletInfolist;
 use App\Filament\Resources\Wallets\Tables\WalletsTable;
 use App\Models\Wallet;
 use BackedEnum;
@@ -30,6 +32,11 @@ class WalletResource extends Resource
         return WalletsTable::configure($table);
     }
 
+    public static function infolist(Schema $schema): Schema
+    {
+        return WalletInfolist::configure($schema);
+    }
+
     public static function getRelations(): array
     {
         return [
@@ -43,6 +50,7 @@ class WalletResource extends Resource
             'index' => ListWallets::route('/'),
             'create' => CreateWallet::route('/create'),
             'edit' => EditWallet::route('/{record}/edit'),
+            // 'view' => ViewWallet::route('/{record}'),
         ];
     }
 }

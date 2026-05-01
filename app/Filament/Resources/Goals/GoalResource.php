@@ -6,6 +6,7 @@ use App\Filament\Resources\Goals\Pages\CreateGoal;
 use App\Filament\Resources\Goals\Pages\EditGoal;
 use App\Filament\Resources\Goals\Pages\ListGoals;
 use App\Filament\Resources\Goals\Schemas\GoalForm;
+use App\Filament\Resources\Goals\Schemas\GoalInfolist;
 use App\Filament\Resources\Goals\Tables\GoalsTable;
 use App\Models\Goal;
 use BackedEnum;
@@ -30,6 +31,10 @@ class GoalResource extends Resource
         return GoalsTable::configure($table);
     }
 
+    public static function infolist(Schema $schema): Schema
+    {
+        return GoalInfolist::configure($schema);
+    }
     public static function getRelations(): array
     {
         return [

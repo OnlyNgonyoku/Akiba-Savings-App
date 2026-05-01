@@ -29,7 +29,7 @@ class TransactionPolicy
      */
     public function create(User $user): bool
     {
-        return true; // Allow all users to create transactions (if needed, adjust this logic based on your application's requirements)
+        return false; // Prevent all users from creating transactions (adjust this logic based on your application's requirements)
     }
 
     /**
@@ -37,7 +37,7 @@ class TransactionPolicy
      */
     public function update(User $user, Transaction $transaction): bool
     {
-        return true;
+        return false;
     }
 
     /**

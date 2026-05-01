@@ -33,6 +33,24 @@ class GoalSeeder extends Seeder
                 'deadline' => now()->addMonths(2),
                 'status' => 'active',
             ],
+                        [
+                'goalable_type' => User::class,
+                'goalable_id' => $users->random()->id,
+                'name' => 'Rumuruti 5Acre Farm',
+                'target_amount' => 300000.00,
+                'deadline' => now()->addMonths(6),
+                'status' => 'active',
+            ],
+            [
+                'goalable_type' => User::class,
+                'goalable_id' => $users->random()->id,
+                'name' => 'Mom\'s 60th Birthday',
+                'target_amount' => 20000.00,
+                'deadline' => now()->addMonths(2),
+                'status' => 'active',
+            ],
+
+
             // Group goals
             [
                 'goalable_type' => Group::class,
@@ -50,11 +68,43 @@ class GoalSeeder extends Seeder
                 'deadline' => now()->addMonths(6),
                 'status' => 'active',
             ],
+                        [
+                'goalable_type' => Group::class,
+                'goalable_id' => $groups->random()->id,
+                'name' => 'Community Health Fund',
+                'target_amount' => 50000.00,
+                'deadline' => now()->addYear(),
+                'status' => 'active',
+            ],
+            [
+                'goalable_type' => Group::class,
+                'goalable_id' => $groups->random()->id,
+                'name' => 'Farmer\'s Investment Pool',
+                'target_amount' => 100000.00,
+                'deadline' => now()->addMonths(6),
+                'status' => 'active',
+            ],
+                        [
+                'goalable_type' => Group::class,
+                'goalable_id' => $groups->random()->id,
+                'name' => 'Community Education Fund',
+                'target_amount' => 50000.00,
+                'deadline' => now()->addYear(),
+                'status' => 'active',
+            ],
+            [
+                'goalable_type' => Group::class,
+                'goalable_id' => $groups->random()->id,
+                'name' => 'Youth Entrepreneurship Fund',
+                'target_amount' => 100000.00,
+                'deadline' => now()->addMonths(6),
+                'status' => 'active',
+            ],
             // Another personal goal
             [
                 'goalable_type' => User::class,
                 'goalable_id' => $users->random()->id,
-                'name' => 'Holiday Trip',
+                'name' => 'Vacation Fund',
                 'target_amount' => 25000.00,
                 'deadline' => now()->addMonths(4),
                 'status' => 'active',

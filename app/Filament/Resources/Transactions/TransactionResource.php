@@ -5,8 +5,10 @@ namespace App\Filament\Resources\Transactions;
 use App\Filament\Resources\Transactions\Pages\CreateTransaction;
 use App\Filament\Resources\Transactions\Pages\EditTransaction;
 use App\Filament\Resources\Transactions\Pages\ListTransactions;
+use App\Filament\Resources\Transactions\Pages\ViewTransaction;
 use App\Filament\Resources\Transactions\RelationManagers\LedgerEntriesRelationManager;
 use App\Filament\Resources\Transactions\Schemas\TransactionForm;
+use App\Filament\Resources\Transactions\Schemas\TransactionInfolist;
 use App\Filament\Resources\Transactions\Tables\TransactionsTable;
 use App\Models\Transaction;
 use BackedEnum;
@@ -31,7 +33,10 @@ class TransactionResource extends Resource
     {
         return TransactionForm::configure($schema);
     }
-
+    public static function infolist(Schema $schema): Schema
+    {
+        return TransactionInfolist::configure($schema);
+    }
     public static function table(Table $table): Table
     {
         return TransactionsTable::configure($table);
@@ -49,8 +54,8 @@ class TransactionResource extends Resource
     {
         return [
             'index' => ListTransactions::route('/'),
-            // 'create' => CreateTransaction::route('/create'),
-            'edit' => EditTransaction::route('/{record}/edit'),
+            // 'edit' => EditTransaction::route('/{record}/edit'),
+            'view' => ViewTransaction::route('/{record}'),
         ];
     }
 }

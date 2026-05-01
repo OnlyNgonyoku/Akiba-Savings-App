@@ -32,20 +32,45 @@ class GroupSeeder extends Seeder
             [
                 'name' => 'Eldoret Investment Club',
                 'type' => 'open',
-                'contribution_amount' => 2000.00,
+                'contribution_amount' => 25000.00,
                 'max_members' => 20,
             ],
             [
                 'name' => 'Mombasa Beach Chama',
                 'type' => 'rotational',
                 'cycle_duration' => 60,
-                'contribution_amount' => 300.00,
+                'contribution_amount' => 5000.00,
                 'max_members' => 7,
             ],
             [
                 'name' => 'Techies Savings Group',
                 'type' => 'milestone',
                 'contribution_amount' => 5000.00,
+                'max_members' => 15,
+            ],
+                        [
+                'name' => 'Shiro Family Savings',
+                'type' => 'milestone',
+                'contribution_amount' => 7000.00,
+                'max_members' => 10,
+            ],
+            [
+                'name' => 'BASKETBALL INVESTMENT GROUP',
+                'type' => 'open',
+                'contribution_amount' => 25000.00,
+                'max_members' => 20,
+            ],
+            [
+                'name' => 'Firelord Zuko Chama',
+                'type' => 'rotational',
+                'cycle_duration' => 60,
+                'contribution_amount' => 5000.00,
+                'max_members' => 7,
+            ],
+            [
+                'name' => 'Comrade Marketplace Savings Group',
+                'type' => 'milestone',
+                'contribution_amount' => 15000.00,
                 'max_members' => 15,
             ],
         ];
@@ -62,7 +87,7 @@ class GroupSeeder extends Seeder
             ]);
 
             // Attach 2-3 random members to each group
-            $members = $users->random(rand(2, 3))->pluck('id')->toArray();
+            $members = $users->random(rand(4, 5))->pluck('id')->toArray();
             foreach ($members as $pos => $userId) {
                 $group->members()->attach($userId, [
                     'role' => $pos === 0 ? 'admin' : 'member',

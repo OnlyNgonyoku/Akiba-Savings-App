@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\Wallet;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -16,11 +17,17 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::createOrFirst([
+        $superAdmin = User::createOrFirst([
             'name' => 'Super Admin',
             'email' => 'admin@admin.com',
             'phone' => '254707670113',
             'password' => bcrypt('password123'),
+        ]);
+        Wallet::create([
+                'walletable_type' => User::class,
+                'walletable_id' => $superAdmin->id,
+                'type' => 'personal',
+                'balance' => 0.00,
         ]);
         $this->call([
             UserSeeder::class,

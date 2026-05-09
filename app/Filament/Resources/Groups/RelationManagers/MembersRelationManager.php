@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\GroupResource\RelationManagers;
+namespace App\Filament\Resources\Groups\RelationManagers;
 
 use App\Models\User;
 use Filament\Actions\AttachAction;

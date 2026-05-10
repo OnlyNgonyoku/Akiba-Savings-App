@@ -15,4 +15,8 @@ export default defineConfig({
             ignored: ['**/storage/framework/views/**'],
         },
     },
+        // Add these two lines:
+    base: process.env.APP_URL
+        ? new URL(process.env.APP_URL).pathname + '/'
+        : '/',
 });

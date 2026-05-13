@@ -37,7 +37,7 @@ class AdminPanelProvider extends PanelProvider
                 'primary' => Color::Lime,
             ])
             ->font('Montserrat')
-            ->spa(hasPrefetching: true)
+            // ->spa(hasPrefetching: true)
             ->unsavedChangesAlerts()
             ->sidebarCollapsibleOnDesktop()
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')

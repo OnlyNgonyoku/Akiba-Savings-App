@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Filament\Panel;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -14,6 +15,17 @@ class User extends Authenticatable
     protected $fillable = ['name', 'phone', 'email', 'password'];
 
     protected $hidden = ['password', 'remember_token'];
+
+
+    /**
+     * Determine if the user can access the Filament admin panel.
+     */
+    public function canAccessPanel(Panel $panel): bool
+    {
+        // For now, allow any authenticated user to access the panel.
+        // You can later restrict by email, role, etc.
+        return true;
+    }
 
     protected function casts(): array
     {
